@@ -1,4 +1,8 @@
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Trespass<T> {
 
@@ -64,6 +68,19 @@ public class Trespass<T> {
      */
     public boolean onBoolean(String variable) throws NoSuchFieldException, IllegalAccessException {
         return (boolean) onVariable(variable);
+    }
+
+    public Object onMethod(String methodName, Object... objects) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        List<Class> classTypes = new ArrayList<>();
+
+        for (Object obj : objects) {
+            classTypes.add(obj.getClass());
+        }
+
+        Method method = classType.getDeclaredMethod(methodName, (Class<?>[]) classTypes.toArray());
+        method.setAccessible(true);
+        return method.invoke(t, objects);
     }
 
 }
